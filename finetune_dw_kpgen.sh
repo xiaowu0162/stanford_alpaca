@@ -20,7 +20,7 @@ torchrun --nproc_per_node=${NGPUS} --master_port=5633 train.py \
      --fp16 True \
      --deepspeed stage3.config \
      --bf16 False \
-     --output_dir 20220421_checkpoint_vicuna_${dataset}_${N_EPOCHS}epochs_lr${LR}_warmup${WARMUP}_bsz${NGPUS}x${BSZ}${GRAD_ACC} \
+     --output_dir 20220421_checkpoint_vicuna_${dataset}_${N_EPOCHS}epochs_lr${LR}_warmup${WARMUP}_bsz${NGPUS}x${BSZ}x${GRAD_ACC} \
      --num_train_epochs ${N_EPOCHS} \
      --per_device_train_batch_size ${BSZ} \
      --per_device_eval_batch_size 1 \
