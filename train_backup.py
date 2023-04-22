@@ -58,7 +58,7 @@ class TrainingArguments(transformers.TrainingArguments):
     cache_dir: Optional[str] = field(default=None)
     optim: str = field(default="adamw_torch")
     model_max_length: int = field(
-        default=256,
+        default=512,
         metadata={"help": "Maximum sequence length. Sequences will be right padded (and possibly truncated)."},
     )
 
@@ -198,7 +198,7 @@ def train():
         cache_dir=training_args.cache_dir,
     )
 
-    tokenizer = transformers.LlamaTokenizer.from_pretrained(
+    tokenizer = transformers.AutoTokenizer.from_pretrained(
         model_args.model_name_or_path,
         cache_dir=training_args.cache_dir,
         model_max_length=training_args.model_max_length,
@@ -223,9 +223,9 @@ def train():
     data_module = make_supervised_data_module(tokenizer=tokenizer, data_args=data_args)
     trainer = Trainer(model=model, tokenizer=tokenizer, args=training_args, **data_module)
     trainer.train()
-    trainer.save_model()
+    trainer.evaluate()
     trainer.save_state()
-    # safe_save_model_for_hf_trainer(trainer=trainer, output_dir=training_args.output_dir)
+    safe_save_model_for_hf_trainer(trainer=trainer, output_dir=training_args.output_dir)
 
 
 if __name__ == "__main__":
